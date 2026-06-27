@@ -65,107 +65,159 @@ export default function OnboardingPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[var(--color-bg)] flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-lg bg-white rounded-[var(--radius-card)] shadow-[var(--shadow-card)] p-8">
-        {/* Progress indicator */}
-        <div className="flex justify-between mb-8">
-          {[1, 2, 3].map((s) => (
-            <div key={s} className="flex-1 flex items-center">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-medium ${step >= s ? 'bg-[var(--color-primary)] text-white' : 'bg-gray-100 text-gray-400'}`}>
-                {s}
-              </div>
-              {s < 3 && <div className={`flex-1 h-1 mx-2 rounded ${step > s ? 'bg-[var(--color-primary)]' : 'bg-gray-100'}`} />}
-            </div>
-          ))}
+    <main className="flex flex-col items-center min-h-screen p-md bg-background relative overflow-hidden pb-12">
+      {/* Atmospheric background blobs */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-secondary-fixed opacity-40 blur-[100px] pointer-events-none"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-primary-fixed opacity-30 blur-[120px] pointer-events-none"></div>
+
+      <div className="w-full max-w-[480px] flex flex-col items-center pt-lg relative z-10">
+        
+        {/* Progress Dots */}
+        <div className="flex gap-2 mb-xl">
+          <div className={`w-2 h-2 rounded-full transition-colors ${step >= 1 ? 'bg-primary' : 'bg-outline-variant'}`}></div>
+          <div className={`w-2 h-2 rounded-full transition-colors ${step >= 2 ? 'bg-primary' : 'bg-outline-variant'}`}></div>
+          <div className={`w-2 h-2 rounded-full transition-colors ${step >= 3 ? 'bg-primary' : 'bg-outline-variant'}`}></div>
+        </div>
+
+        {/* Logo & Tagline */}
+        <div className="flex flex-col items-center mb-lg text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="w-20 h-20 mb-4 bg-primary-fixed text-primary rounded-full flex items-center justify-center">
+            <span className="material-symbols-outlined text-[40px]">spa</span>
+          </div>
+          <h1 className="font-headline-md text-headline-md text-on-surface mb-2">Let's personalize your sanctuary</h1>
+          <p className="font-body-md text-body-md text-on-surface-variant max-w-[300px]">A few quick questions to tailor MindEase to your unique journey.</p>
         </div>
 
         {error && (
-          <div className="bg-[var(--color-danger)]/10 text-[var(--color-danger)] p-3 rounded-lg mb-4 text-sm">
+          <div className="w-full bg-error-container/20 text-error p-3 rounded-lg mb-4 text-sm text-center">
             {error}
           </div>
         )}
 
-        {step === 1 && (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-[var(--color-text-primary)]">What should I call you?</h2>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Your name"
-              className="w-full p-4 border border-gray-200 rounded-[var(--radius-input)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-lg"
-              autoFocus
-            />
-            <button
-              onClick={() => name.trim() && setStep(2)}
-              disabled={!name.trim()}
-              className="w-full bg-[var(--color-primary)] text-white p-4 rounded-[var(--radius-pill)] font-medium disabled:opacity-50"
-            >
-              Next
-            </button>
-          </div>
-        )}
-
-        {step === 2 && (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-[var(--color-text-primary)]">Which exam are you preparing for?</h2>
-            <div className="grid grid-cols-1 gap-3">
-              {EXAM_LIST.map((e) => (
+        {/* Form Container */}
+        <div className="w-full bg-white/95 backdrop-blur-md rounded-[24px] shadow-[0_4px_20px_rgba(99,102,241,0.08)] p-lg transition-all">
+          
+          {step === 1 && (
+            <div className="space-y-[24px] animate-in fade-in slide-in-from-right-4 duration-300">
+              <div className="space-y-sm">
+                <label className="block font-label-md text-label-md text-on-surface" htmlFor="name">
+                  What should I call you?
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span className="material-symbols-outlined text-outline-variant text-[20px]">person</span>
+                  </div>
+                  <input
+                    type="text"
+                    id="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Your preferred name"
+                    className="block w-full pl-10 py-3 bg-[#F1F5F9] border border-[#E0E7FF] rounded-[12px] font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                    autoFocus
+                  />
+                </div>
+              </div>
+              <div>
                 <button
-                  key={e.id}
-                  onClick={() => setExam(e.id)}
-                  className={`p-4 rounded-[var(--radius-input)] border text-left transition-all ${exam === e.id ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5 ring-1 ring-[var(--color-primary)]' : 'border-gray-200 hover:border-[var(--color-primary)]/50'}`}
+                  onClick={() => name.trim() && setStep(2)}
+                  disabled={!name.trim()}
+                  className="w-full flex justify-center items-center py-4 px-4 border border-transparent rounded-full shadow-sm font-label-md text-label-md font-medium text-on-primary bg-primary hover:bg-primary-container focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200 disabled:opacity-50"
                 >
-                  <div className="font-semibold text-[var(--color-text-primary)]">{e.label}</div>
-                  <div className="text-sm text-[var(--color-text-secondary)]">{e.description}</div>
+                  Continue
+                  <span className="material-symbols-outlined ml-2 text-[20px]">arrow_forward</span>
                 </button>
-              ))}
+              </div>
             </div>
-            <div className="flex gap-4">
-              <button onClick={() => setStep(1)} className="w-1/3 bg-gray-100 text-gray-700 p-4 rounded-[var(--radius-pill)] font-medium">Back</button>
-              <button
-                onClick={() => exam && setStep(3)}
-                disabled={!exam}
-                className="w-2/3 bg-[var(--color-primary)] text-white p-4 rounded-[var(--radius-pill)] font-medium disabled:opacity-50"
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        )}
+          )}
 
-        {step === 3 && (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-[var(--color-text-primary)]">How would you like me to respond?</h2>
-            <div className="grid grid-cols-1 gap-3">
-              {[
-                { id: 'gentle', label: 'Gentle & Comforting', desc: 'Soft, empathetic support' },
-                { id: 'direct', label: 'Direct & Practical', desc: 'Clear, actionable advice without fluff' },
-                { id: 'motivational', label: 'Motivational', desc: 'Energizing and inspiring encouragement' }
-              ].map((t) => (
+          {step === 2 && (
+            <div className="space-y-[24px] animate-in fade-in slide-in-from-right-4 duration-300">
+              <div className="space-y-sm">
+                <label className="block font-label-md text-label-md text-on-surface mb-2">
+                  Which exam are you preparing for?
+                </label>
+                <div className="grid grid-cols-1 gap-3">
+                  {EXAM_LIST.map((e) => (
+                    <button
+                      key={e.id}
+                      onClick={() => setExam(e.id)}
+                      className={`text-left p-4 rounded-[16px] border transition-all ${
+                        exam === e.id
+                          ? 'border-primary bg-primary-fixed/20 ring-1 ring-primary'
+                          : 'border-[#E0E7FF] bg-[#F1F5F9] hover:border-primary/50'
+                      }`}
+                    >
+                      <div className="font-label-md text-label-md text-on-surface font-semibold">{e.label}</div>
+                      <div className="font-caption text-caption text-on-surface-variant mt-1">{e.description}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="flex gap-4">
                 <button
-                  key={t.id}
-                  onClick={() => setTone(t.id as TonePreference)}
-                  className={`p-4 rounded-[var(--radius-input)] border text-left transition-all ${tone === t.id ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5 ring-1 ring-[var(--color-primary)]' : 'border-gray-200 hover:border-[var(--color-primary)]/50'}`}
+                  onClick={() => setStep(1)}
+                  className="w-1/3 flex justify-center items-center py-4 px-4 border border-[#E0E7FF] rounded-full shadow-sm font-label-md text-label-md font-medium text-on-surface bg-white hover:bg-surface-container-low transition-colors duration-200"
                 >
-                  <div className="font-semibold text-[var(--color-text-primary)]">{t.label}</div>
-                  <div className="text-sm text-[var(--color-text-secondary)]">{t.desc}</div>
+                  Back
                 </button>
-              ))}
+                <button
+                  onClick={() => exam && setStep(3)}
+                  disabled={!exam}
+                  className="w-2/3 flex justify-center items-center py-4 px-4 border border-transparent rounded-full shadow-sm font-label-md text-label-md font-medium text-on-primary bg-primary hover:bg-primary-container focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200 disabled:opacity-50"
+                >
+                  Continue
+                </button>
+              </div>
             </div>
-            <div className="flex gap-4">
-              <button onClick={() => setStep(2)} className="w-1/3 bg-gray-100 text-gray-700 p-4 rounded-[var(--radius-pill)] font-medium">Back</button>
-              <button
-                onClick={handleComplete}
-                disabled={!tone || loading}
-                className="w-2/3 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white p-4 rounded-[var(--radius-pill)] font-medium disabled:opacity-50"
-              >
-                {loading ? 'Setting up...' : 'Start My Journey'}
-              </button>
-            </div>
-          </div>
-        )}
+          )}
 
+          {step === 3 && (
+            <div className="space-y-[24px] animate-in fade-in slide-in-from-right-4 duration-300">
+              <div className="space-y-sm">
+                <label className="block font-label-md text-label-md text-on-surface mb-2">
+                  How would you like me to respond?
+                </label>
+                <div className="grid grid-cols-1 gap-3">
+                  {[
+                    { id: 'gentle', label: 'Gentle & Comforting', desc: 'Soft, empathetic support' },
+                    { id: 'direct', label: 'Direct & Practical', desc: 'Clear, actionable advice without fluff' },
+                    { id: 'motivational', label: 'Motivational', desc: 'Energizing and inspiring encouragement' }
+                  ].map((t) => (
+                    <button
+                      key={t.id}
+                      onClick={() => setTone(t.id as TonePreference)}
+                      className={`text-left p-4 rounded-[16px] border transition-all ${
+                        tone === t.id
+                          ? 'border-primary bg-primary-fixed/20 ring-1 ring-primary'
+                          : 'border-[#E0E7FF] bg-[#F1F5F9] hover:border-primary/50'
+                      }`}
+                    >
+                      <div className="font-label-md text-label-md text-on-surface font-semibold">{t.label}</div>
+                      <div className="font-caption text-caption text-on-surface-variant mt-1">{t.desc}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setStep(2)}
+                  className="w-1/3 flex justify-center items-center py-4 px-4 border border-[#E0E7FF] rounded-full shadow-sm font-label-md text-label-md font-medium text-on-surface bg-white hover:bg-surface-container-low transition-colors duration-200"
+                >
+                  Back
+                </button>
+                <button
+                  onClick={handleComplete}
+                  disabled={!tone || loading}
+                  className="w-2/3 flex justify-center items-center py-4 px-4 border border-transparent rounded-full shadow-sm font-label-md text-label-md font-medium text-on-primary bg-primary hover:bg-primary-container focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200 disabled:opacity-50"
+                >
+                  {loading ? 'Setting up...' : 'Start My Journey'}
+                </button>
+              </div>
+            </div>
+          )}
+
+        </div>
       </div>
     </main>
   );

@@ -1,6 +1,12 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { SupabaseJournalEntry, SupabaseAIResponse } from '@/types';
 
+/**
+ * Hook to manage AI analysis of journal entries.
+ * Handles the loading state, errors, and fetch request to the analyze API.
+ * 
+ * @returns {Object} Object containing the analyze function, loading state, error state, and response data.
+ */
 export const useAIAnalysis = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -9,7 +15,15 @@ export const useAIAnalysis = () => {
     aiResponse: SupabaseAIResponse;
   } | null>(null);
 
-  const analyze = async (entry_text: string, mood_score: number, exam_type?: string) => {
+  /**
+   * Analyzes the journal entry by making an API request.
+   * 
+   * @param {string} entry_text - The text content of the journal entry.
+   * @param {number} mood_score - The mood score associated with the entry.
+   * @param {string} [exam_type] - The optional exam type context.
+   * @returns {Promise<any>} The AI analysis result data.
+   */
+  const analyze = useCallback(async (entry_text: string, mood_score: number, exam_type?: string) => {
     setLoading(true);
     setError(null);
     try {
@@ -30,7 +44,7 @@ export const useAIAnalysis = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   return { analyze, loading, error, data };
 };

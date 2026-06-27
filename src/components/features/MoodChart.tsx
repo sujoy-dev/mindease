@@ -1,71 +1,61 @@
 'use client';
 
+import { useMemo, useCallback } from 'react';
 import { SupabaseMoodLog } from '@/types';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { MOOD_SCALE } from '@/constants/moodScale';
+import { LineChart, Line, XAxis, ResponsiveContainer } from 'recharts';
 import { format, parseISO } from 'date-fns';
 
 export function MoodChart({ logs }: { logs: SupabaseMoodLog[] }) {
+  // Sort chronologically for chart
+  const chartData = useMemo(() => {
+    if (!logs) return [];
+    return [...logs].reverse().map(log => ({
+      date: format(parseISO(log.logged_at!), 'EEE'), // Mon, Tue
+      score: log.mood_score,
+      fullDate: format(parseISO(log.logged_at!), 'MMM d, yyyy')
+    }));
+  }, [logs]);
+
+  // A custom dot for the chart that mimics the screenshot (white filled circle with a small indigo dot inside)
+  const CustomDot = useCallback((props: any) => {
+    const { cx, cy } = props;
+    if (cx == null || cy == null) return null;
+    return (
+      <g>
+        <circle cx={cx} cy={cy} r={8} fill="white" stroke="#E5E7EB" strokeWidth={1} />
+        <circle cx={cx} cy={cy} r={3} fill="#4F46E5" />
+      </g>
+    );
+  }, []);
+
   if (!logs || logs.length === 0) {
     return (
-      <div className="h-[300px] flex items-center justify-center bg-gray-50 rounded-xl border border-gray-100">
-        <p className="text-gray-500 text-sm">Not enough data to show chart yet.</p>
+      <div className="h-[250px] flex items-center justify-center bg-[#F9FAFB] rounded-2xl border border-[#F3F4F6]">
+        <p className="text-[#9CA3AF] text-sm">Not enough data to show chart yet.</p>
       </div>
     );
   }
 
-  // Sort chronologically for chart
-  const chartData = [...logs].reverse().map(log => ({
-    date: format(parseISO(log.logged_at!), 'MMM d'),
-    score: log.mood_score,
-    fullDate: format(parseISO(log.logged_at!), 'MMM d, yyyy')
-  }));
-
-  const CustomTooltip = ({ active, payload }: any) => {
-    if (active && payload && payload.length) {
-      const data = payload[0].payload;
-      const moodInfo = MOOD_SCALE.find(m => m.value === data.score);
-      return (
-        <div className="bg-white p-3 border border-gray-100 rounded-lg shadow-lg">
-          <p className="text-xs text-gray-500 mb-1">{data.fullDate}</p>
-          <div className="flex items-center gap-2">
-            <span className="text-xl">{moodInfo?.emoji}</span>
-            <span className="font-semibold text-gray-900">{moodInfo?.label}</span>
-          </div>
-        </div>
-      );
-    }
-    return null;
-  };
-
   return (
-    <div className="h-[300px] w-full">
+    <div className="h-[250px] w-full mt-8">
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
+        <LineChart data={chartData} margin={{ top: 20, right: 20, left: 20, bottom: 0 }}>
           <XAxis 
             dataKey="date" 
             axisLine={false}
             tickLine={false}
-            tick={{ fontSize: 12, fill: '#6B7280' }}
+            tick={{ fontSize: 12, fill: '#D1D5DB' }}
             dy={10}
           />
-          <YAxis 
-            domain={[1, 5]} 
-            ticks={[1, 2, 3, 4, 5]}
-            axisLine={false}
-            tickLine={false}
-            tick={{ fontSize: 12, fill: '#6B7280' }}
-            tickFormatter={(val) => MOOD_SCALE.find(m => m.value === val)?.emoji || ''}
-          />
-          <Tooltip content={<CustomTooltip />} />
+          {/* Hide YAxis entirely, we just want the curve */}
           <Line 
             type="monotone" 
             dataKey="score" 
-            stroke="var(--color-primary)" 
-            strokeWidth={3}
-            dot={{ r: 4, fill: 'var(--color-primary)', strokeWidth: 2, stroke: '#fff' }}
-            activeDot={{ r: 6, fill: 'var(--color-primary)', strokeWidth: 0 }}
+            stroke="#4F46E5" 
+            strokeWidth={14}
+            dot={<CustomDot />}
+            activeDot={false}
+            isAnimationActive={true}
           />
         </LineChart>
       </ResponsiveContainer>

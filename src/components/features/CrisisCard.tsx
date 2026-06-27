@@ -1,27 +1,29 @@
-import { Phone } from 'lucide-react';
-import { Card } from '../ui/Card';
+import { PhoneCall, ShieldAlert } from 'lucide-react';
 
-export function CrisisCard() {
+export function CrisisCard({ alwaysVisible = false }: { alwaysVisible?: boolean }) {
+  // Always render based on rule8 which specifies Crisis Card must be always visible on AI response screen
   return (
-    <Card className="p-4 bg-rose-50 border border-rose-200 shadow-sm mt-4">
-      <div className="flex items-start gap-3">
-        <div className="bg-rose-100 p-2 rounded-full shrink-0">
-          <Phone className="w-5 h-5 text-rose-600" />
-        </div>
-        <div>
-          <h3 className="font-semibold text-rose-800">You don't have to face this alone.</h3>
-          <p className="text-sm text-rose-700 mt-1 mb-3">
-            It sounds like you're going through a really tough time. If you feel unsafe or overwhelmed, please reach out for professional help immediately.
-          </p>
-          <a
-            href="tel:9152987821"
-            className="inline-flex items-center gap-2 bg-rose-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-rose-700 transition-colors"
-          >
-            <Phone className="w-4 h-4" />
-            Call iCall: 9152987821
-          </a>
-        </div>
+    <div className="bg-[#FEF2F2] rounded-2xl p-6 border border-[#FEE2E2] mt-auto md:mt-0 shadow-sm">
+      <div className="flex items-center gap-2 mb-3 text-[#B91C1C]">
+        <ShieldAlert className="w-5 h-5" />
+        <h4 className="text-xs font-bold uppercase tracking-wider">Support is here</h4>
       </div>
-    </Card>
+      <p className="text-sm text-[#4B5563] mb-5 leading-relaxed">
+        Feeling overwhelmed and need someone to talk to right away?
+      </p>
+      <a 
+        className="flex items-center justify-between bg-white px-4 py-3 rounded-xl border border-[#FEE2E2] hover:bg-[#FEE2E2]/50 transition-colors shadow-sm" 
+        href="tel:9152987821"
+      >
+        <span className="text-sm font-semibold text-[#1E1B4B]">iCall Helpline</span>
+        <span className="text-sm font-bold text-[#6366F1] flex items-center gap-1.5">
+          <PhoneCall className="w-4 h-4" />
+          9152987821
+        </span>
+      </a>
+      <p className="text-[10px] text-center text-[#EF4444] mt-4 font-semibold opacity-80 uppercase tracking-wide">
+        This is not a substitute for professional help.
+      </p>
+    </div>
   );
 }

@@ -1,15 +1,23 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { UserProfile } from '@/types';
 import { createClient } from '@/lib/supabase/client';
 import { useAuth } from './useAuth';
 
+/**
+ * Hook to fetch and manage the user's profile data.
+ * 
+ * @returns {Object} Object containing profile data, loading state, error state, and a refetch function.
+ */
 export const useProfile = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { user, isLoading: authLoading } = useAuth();
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
+  /**
+   * Fetches the user profile from Supabase.
+   */
   const fetchProfile = useCallback(async () => {
     if (!user) {
       if (!authLoading) setLoading(false);

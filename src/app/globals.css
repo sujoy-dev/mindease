@@ -1,28 +1,66 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-primary: #6366F1;
-  --color-secondary: #A78BFA;
-  --color-accent: #2DD4BF;
-  --color-bg: #F8F7FF;
-  --color-surface: #FFFFFF;
-  --color-text-primary: #1E1B4B;
-  --color-text-secondary: #6B7280;
-  --color-danger: #F43F5E;
-  --color-success: #10B981;
+  /* Rule 10 Core Colors */
+  --color-rule-primary: #6366F1;
+  --color-rule-secondary: #A78BFA;
+  --color-rule-accent: #2DD4BF;
+  --color-rule-bg: #F8F7FF;
+  --color-rule-surface: #FFFFFF;
+  --color-rule-text-primary: #1E1B4B;
+  --color-rule-text-secondary: #6B7280;
+  --color-rule-danger: #F43F5E;
+  --color-rule-success: #10B981;
 
+  /* Tailwind Color Maps for Stitch HTML compatibility */
+  --color-background: var(--color-rule-bg);
+  --color-on-background: var(--color-rule-text-primary);
+  --color-primary: var(--color-rule-primary);
+  --color-on-primary: #ffffff;
+  --color-secondary: var(--color-rule-secondary);
+  --color-on-secondary: #ffffff;
+  --color-accent: var(--color-rule-accent);
+  --color-surface: var(--color-rule-surface);
+  --color-on-surface: var(--color-rule-text-primary);
+  --color-surface-container: var(--color-rule-surface);
+  --color-surface-container-lowest: var(--color-rule-surface);
+  --color-surface-container-highest: #f1f0f5;
+  --color-on-surface-variant: var(--color-rule-text-secondary);
+  --color-primary-container: var(--color-rule-primary);
+  --color-on-primary-container: #ffffff;
+  --color-primary-fixed: rgba(99,102,241,0.1);
+  --color-primary-fixed-dim: rgba(99,102,241,0.2);
+  --color-secondary-fixed: rgba(167,139,250,0.1);
+  --color-outline-variant: #e5e7eb;
+
+  /* Rule 10 Radii */
   --radius-card: 16px;
   --radius-input: 12px;
   --radius-pill: 50px;
-  
-  --shadow-card: 0 4px 20px rgba(99,102,241,0.08);
 
-  --font-sans: var(--font-inter), sans-serif;
+  /* Stitch Specific Spacing */
+  --spacing-xs: 4px;
+  --spacing-base: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 24px;
+  --spacing-lg: 48px;
+  --spacing-xl: 80px;
+  --spacing-container-max: 1200px;
+
+  /* Stitch Typography (mapped to Inter per Rule 10) */
+  --font-headline-lg-mobile: var(--font-inter), sans-serif;
+  --font-headline-lg: var(--font-inter), sans-serif;
+  --font-headline-md: var(--font-inter), sans-serif;
+  --font-label-md: var(--font-inter), sans-serif;
+  --font-body-ai: var(--font-inter), sans-serif;
+  --font-display-lg: var(--font-inter), sans-serif;
+  --font-body-md: var(--font-inter), sans-serif;
+  --font-caption: var(--font-inter), sans-serif;
 }
 
 :root {
-  background-color: var(--color-bg);
-  color: var(--color-text-primary);
+  background-color: var(--color-rule-bg);
+  color: var(--color-rule-text-primary);
 }
 
 body {
@@ -32,7 +70,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom Breathing Animation */
+/* Custom Breathing Animation for AI Response */
 @keyframes breathing {
   0% { transform: scale(1); opacity: 0.8; }
   50% { transform: scale(1.1); opacity: 1; }
@@ -41,4 +79,20 @@ body {
 
 .animate-breathing {
   animation: breathing 4s infinite ease-in-out;
+}
+
+/* Shimmer from Stitch */
+.shimmer {
+  background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% auto;
+  animation: shimmer 3s infinite linear;
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
