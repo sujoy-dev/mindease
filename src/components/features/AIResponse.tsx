@@ -105,6 +105,4 @@ export const AIResponse = React.memo(function AIResponse({ response }: { respons
       </div>
     </div>
   );
-}
-
-);
+});

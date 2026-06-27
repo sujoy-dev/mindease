@@ -30,6 +30,4 @@ export const CrisisCard = React.memo(function CrisisCard({ alwaysVisible = false
       </p>
     </div>
   );
-}
-
-);
+});
