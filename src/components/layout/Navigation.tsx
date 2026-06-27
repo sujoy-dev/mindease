@@ -3,8 +3,12 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, PenSquare, LineChart, Settings } from 'lucide-react';
+import React from 'react';
 
-export function BottomNav() {
+/**
+ * Mobile bottom navigation bar.
+ */
+export const BottomNav = React.memo(function BottomNav() {
   const pathname = usePathname();
 
   const navItems = [
@@ -27,20 +31,24 @@ export function BottomNav() {
           <Link
             key={item.href}
             href={item.href}
+            aria-label={item.label}
             className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${
               isActive ? 'text-[var(--color-primary)]' : 'text-gray-400 hover:text-gray-600'
             }`}
           >
-            <Icon className={`w-6 h-6 ${isActive ? 'fill-[var(--color-primary)]/10' : ''}`} />
+            <Icon aria-hidden="true" className={`w-6 h-6 ${isActive ? 'fill-[var(--color-primary)]/10' : ''}`} />
             <span className="text-[10px] font-medium">{item.label}</span>
           </Link>
         );
       })}
     </nav>
   );
-}
+});
 
-export function DesktopSidebar() {
+/**
+ * Desktop side navigation sidebar.
+ */
+export const DesktopSidebar = React.memo(function DesktopSidebar() {
   const pathname = usePathname();
 
   const navItems = [
@@ -64,13 +72,14 @@ export function DesktopSidebar() {
             <Link
               key={item.href}
               href={item.href}
+              aria-label={item.label}
               className={`flex items-center gap-3 px-4 py-3 rounded-[var(--radius-input)] transition-all ${
                 isActive 
                   ? 'bg-[var(--color-primary)]/10 text-[var(--color-primary)] font-medium' 
                   : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
               }`}
             >
-              <Icon className={`w-5 h-5 ${isActive ? 'fill-[var(--color-primary)]/10' : ''}`} />
+              <Icon aria-hidden="true" className={`w-5 h-5 ${isActive ? 'fill-[var(--color-primary)]/10' : ''}`} />
               <span>{item.label}</span>
             </Link>
           );
@@ -78,4 +87,4 @@ export function DesktopSidebar() {
       </nav>
     </aside>
   );
-}
+});

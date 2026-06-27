@@ -5,7 +5,10 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'success' | 'warning' | 'danger' | 'outline';
 }
 
-export function Badge({ className, variant = 'default', ...props }: BadgeProps) {
+/**
+ * Badge component for displaying status, labels, or tags.
+ */
+export const Badge = React.memo(function Badge({ className, variant = 'default', ...props }: BadgeProps) {
   const variants = {
     default: 'bg-indigo-100 text-indigo-700',
     success: 'bg-[var(--color-success)]/10 text-[var(--color-success)]',
@@ -24,4 +27,4 @@ export function Badge({ className, variant = 'default', ...props }: BadgeProps) 
       {...props}
     />
   );
-}
+});

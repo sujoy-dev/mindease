@@ -1,8 +1,12 @@
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
+import React from 'react';
 
-export function SuccessToast({ message, duration = 3000, onClose }: { message: string, duration?: number, onClose?: () => void }) {
+/**
+ * A toast notification for successful actions.
+ */
+export const SuccessToast = React.memo(function SuccessToast({ message, duration = 3000, onClose }: { message: string, duration?: number, onClose?: () => void }) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -26,3 +30,5 @@ export function SuccessToast({ message, duration = 3000, onClose }: { message: s
     </div>
   );
 }
+
+);

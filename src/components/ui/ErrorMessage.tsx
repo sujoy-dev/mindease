@@ -1,7 +1,11 @@
 import { AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import React from 'react';
 
-export function ErrorMessage({ message, className }: { message: string, className?: string }) {
+/**
+ * Displays an accessible error message with an icon.
+ */
+export const ErrorMessage = React.memo(function ErrorMessage({ message, className }: { message: string, className?: string }) {
   if (!message) return null;
   
   return (
@@ -15,3 +19,5 @@ export function ErrorMessage({ message, className }: { message: string, classNam
     </div>
   );
 }
+
+);

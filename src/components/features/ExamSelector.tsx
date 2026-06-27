@@ -1,12 +1,16 @@
 import { EXAM_LIST } from '@/constants/examList';
 import { ExamType } from '@/types';
+import React from 'react';
 
 interface ExamSelectorProps {
-  value: ExamType;
+  value: ExamType | '';
   onChange: (exam: ExamType) => void;
 }
 
-export function ExamSelector({ value, onChange }: ExamSelectorProps) {
+/**
+ * A selector component for picking an exam type.
+ */
+export const ExamSelector = React.memo(function ExamSelector({ value, onChange }: ExamSelectorProps) {
   return (
     <div className="flex flex-wrap gap-2">
       {EXAM_LIST.map((exam) => (
@@ -26,3 +30,5 @@ export function ExamSelector({ value, onChange }: ExamSelectorProps) {
     </div>
   );
 }
+
+);

@@ -1,6 +1,11 @@
 import { Card } from '../ui/Card';
+import { useState, useEffect } from 'react';
+import React from 'react';
 
-export function BreathingExercise() {
+/**
+ * A guided breathing exercise component.
+ */
+export const BreathingExercise = React.memo(function BreathingExercise() {
   return (
     <Card className="p-8 flex flex-col items-center justify-center text-center bg-teal-50 border-teal-100">
       <h3 className="text-lg font-semibold text-teal-800 mb-2">Take a moment</h3>
@@ -18,3 +23,5 @@ export function BreathingExercise() {
     </Card>
   );
 }
+
+);

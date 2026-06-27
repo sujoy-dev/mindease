@@ -89,7 +89,7 @@ export default function OnboardingPage() {
         </div>
 
         {error && (
-          <div className="w-full bg-error-container/20 text-error p-3 rounded-lg mb-4 text-sm text-center">
+          <div className="w-full bg-error-container/20 text-error p-3 rounded-lg mb-4 text-sm text-center" role="alert" aria-live="assertive">
             {error}
           </div>
         )}

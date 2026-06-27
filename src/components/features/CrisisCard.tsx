@@ -1,6 +1,10 @@
 import { PhoneCall, ShieldAlert } from 'lucide-react';
+import React from 'react';
 
-export function CrisisCard({ alwaysVisible = false }: { alwaysVisible?: boolean }) {
+/**
+ * Renders a crisis support card providing emergency contact information.
+ */
+export const CrisisCard = React.memo(function CrisisCard({ alwaysVisible = false }: { alwaysVisible?: boolean }) {
   // Always render based on rule8 which specifies Crisis Card must be always visible on AI response screen
   return (
     <div className="bg-[#FEF2F2] rounded-2xl p-6 border border-[#FEE2E2] mt-auto md:mt-0 shadow-sm">
@@ -27,3 +31,5 @@ export function CrisisCard({ alwaysVisible = false }: { alwaysVisible?: boolean 
     </div>
   );
 }
+
+);

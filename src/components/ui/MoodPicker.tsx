@@ -8,7 +8,10 @@ interface MoodPickerProps {
   className?: string;
 }
 
-export function MoodPicker({ value, onChange, className }: MoodPickerProps) {
+/**
+ * A horizontal row of emoji buttons for picking a mood score (1-5).
+ */
+export const MoodPicker = React.memo(function MoodPicker({ value, onChange, className }: MoodPickerProps) {
   return (
     <div className={cn("flex flex-row justify-between sm:justify-start gap-2 sm:gap-4", className)}>
       {MOOD_SCALE.map((mood) => (
@@ -37,3 +40,5 @@ export function MoodPicker({ value, onChange, className }: MoodPickerProps) {
     </div>
   );
 }
+
+);

@@ -1,7 +1,11 @@
 import { Flame } from 'lucide-react';
+import React from 'react';
 import { Card } from '../ui/Card';
 
-export function StreakCard({ count }: { count: number }) {
+/**
+ * Component to display the user's current journaling streak.
+ */
+export const StreakCard = React.memo(function StreakCard({ count }: { count: number }) {
   return (
     <Card className="p-4 flex items-center gap-4 bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200">
       <div className="bg-white p-3 rounded-full shadow-sm relative">
@@ -20,3 +24,5 @@ export function StreakCard({ count }: { count: number }) {
     </Card>
   );
 }
+
+);

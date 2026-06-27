@@ -1,11 +1,12 @@
 import { SupabaseAIResponse } from '@/types';
 import { CrisisCard } from './CrisisCard';
 import { Bot, Wrench } from 'lucide-react';
+import React from 'react';
 
 /**
  * AIResponse — Renders the GenAI response after journal analysis.
  */
-export function AIResponse({ response }: { response: SupabaseAIResponse }) {
+export const AIResponse = React.memo(function AIResponse({ response }: { response: SupabaseAIResponse }) {
   if (!response) return null;
 
   const isHighStress = response.severity_level && response.severity_level >= 4;
@@ -105,3 +106,5 @@ export function AIResponse({ response }: { response: SupabaseAIResponse }) {
     </div>
   );
 }
+
+);
